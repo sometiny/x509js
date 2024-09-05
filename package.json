@@ -1,15 +1,15 @@
 {
-  "name": "x509-js",
+  "name": "x509js",
   "version": "1.0.0",
-  "description": "x509-js",
+  "description": "x509js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cook-code-jazor/x509-js.git"
+    "url": "git+https://github.com/cook-code-jazor/x509js.git"
   },
   "scripts": {
     "build": "npx webpack --mode production"
   },
-  "homepage": "https://github.com/cook-code-jazor/x509-js",
+  "homepage": "https://github.com/cook-code-jazor/x509js",
   "devDependencies": {
     "copy-webpack-plugin": "^9.1.0",
     "eslint": "5.15.3",
