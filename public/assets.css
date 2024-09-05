@@ -3,8 +3,9 @@ h2 {font-size: 1.5em; border-bottom: 2px #eee solid; padding-bottom: 8px}
 .clearfix:after, .clearfix:before {display: table;content: " ";clear: both;}
 label {display: inline-block;width: 180px;text-align: right;padding-right: 20px;}
 div.fields > div {margin-bottom: 8px}
-#container {padding-left: 180px; }
-#container > div {float: left; margin-right: 20px}
+.fields {float: left}
+#container {float: left; width: 550px; margin-left: 40px }
+#container > div {}
 #x509Names > div {margin-bottom: 3px}
 #x509Names > div:last-child {margin-bottom: 0}
 input[type=button]{
@@ -23,6 +24,9 @@ input[type=button]{
     font-size: 12px;
     border-radius: 3px;
     outline: none;
+}
+input[type=button].warning {
+    background-color: #E6A23C;
 }
 input[type=text], textarea {
     -webkit-appearance: none;

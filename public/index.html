@@ -9,76 +9,79 @@
 </head>
 <body>
 <h2>生成密钥对/CSR证书请求/自签名证书</h2>
-<div class="fields">
-    <div>
-        <label for="alg">Algorithm：</label><select id="alg">
-            <option value="ECC-P-256">ECC(P-256)</option>
-            <option value="ECC-P-384" selected>ECC(P-384) - 推荐</option>
-            <option value="ECC-P-521">ECC(P-521)</option>
-            <option value="RSA-2048">RSA(2048)</option>
-            <option value="RSA-4096">RSA(4096)</option>
-        </select>
-    </div>
-    <div id="x509Names">
-        <div><label for="CN">CommonName：</label><input type="text" id="CN" value="your-domain.com" /></div>
-        <div><label for="O">Organization：</label><input type="text" id="O" value="organization" /></div>
-        <div><label for="OU">OrganizationUint：</label><input type="text" id="OU" value="organization_unit" /></div>
-        <div><label for="C">Country：</label><input type="text" id="C" value="CN" /></div>
-        <div><label for="St">State：</label><input type="text" id="St" value="" /></div>
-        <div><label for="L">Locality：</label><input type="text" id="L" value="" /></div>
-        <div><label for="Street">Street：</label><input type="text" id="Street" value="" /></div>
-    </div>
-    <div>
-        <div><label>Days：</label><input type="radio" name="days" value="30" /> 30
-            <input type="radio" name="days" value="90" /> 90
-            <input type="radio" name="days" value="180" /> 180
-            <input type="radio" name="days" value="365" checked /> 365
-            <input type="radio" name="days" value="3650" /> 3650
+<div class="clearfix">
+    <div class="fields">
+        <div>
+            <label for="alg">Algorithm：</label><select id="alg">
+                <option value="ECC-P-256">ECC(P-256)</option>
+                <option value="ECC-P-384" selected>ECC(P-384) - 推荐</option>
+                <option value="ECC-P-521">ECC(P-521)</option>
+                <option value="RSA-2048">RSA(2048)</option>
+                <option value="RSA-4096">RSA(4096)</option>
+            </select>
+        </div>
+        <div id="x509Names">
+            <div><label for="CN">CommonName：</label><input type="text" id="CN" value="your-domain.com" /></div>
+            <div><label for="O">Organization：</label><input type="text" id="O" value="organization" /></div>
+            <div><label for="OU">OrganizationUint：</label><input type="text" id="OU" value="organization_unit" /></div>
+            <div><label for="C">Country：</label><input type="text" id="C" value="CN" /></div>
+            <div><label for="St">State：</label><input type="text" id="St" value="" /></div>
+            <div><label for="L">Locality：</label><input type="text" id="L" value="" /></div>
+            <div><label for="Street">Street：</label><input type="text" id="Street" value="" /></div>
+        </div>
+        <div>
+            <div><label>Days：</label><input type="radio" name="days" value="30" /> 30
+                <input type="radio" name="days" value="90" /> 90
+                <input type="radio" name="days" value="180" /> 180
+                <input type="radio" name="days" value="365" checked /> 365
+                <input type="radio" name="days" value="3650" /> 3650
+            </div>
+        </div>
+        <div>
+            <div><label>KeyUsage：</label><input type="checkbox" name="keyUsage" value="DigitalSignature" checked /> DigitalSignature
+                <input type="checkbox" name="keyUsage" value="NonRepudiation" /> NonRepudiation
+                <input type="checkbox" name="keyUsage" value="KeyEncipherment" checked /> KeyEncipherment
+                <input type="checkbox" name="keyUsage" value="DataEncipherment" checked /> DataEncipherment
+                <input type="checkbox" name="keyUsage" value="KeyAgreement" /> KeyAgreement
+            </div>
+            <div><label></label><input type="checkbox" name="keyUsage" value="KeyCertSign" /> KeyCertSign<span style="color: red">(CA Required)</span>
+                <input type="checkbox" name="keyUsage" value="CrlSign" /> CrlSign
+                <input type="checkbox" name="keyUsage" value="EncipherOnly" /> EncipherOnly
+                <input type="checkbox" name="keyUsage" value="DecipherOnly" /> DecipherOnly
+            </div>
+        </div>
+        <div>
+            <div><label>ExtendedKeyUsage：</label><input type="checkbox" name="extendedKeyUsage" value="ServerAuth" checked /> ServerAuth
+                <input type="checkbox" name="extendedKeyUsage" value="ClientAuth" checked /> ClientAuth
+                <input type="checkbox" name="extendedKeyUsage" value="CodeSigning" /> CodeSigning
+                <input type="checkbox" name="extendedKeyUsage" value="EmailProtection" /> EmailProtection
+                <input type="checkbox" name="extendedKeyUsage" value="IpsecEndSystem" /> IpsecEndSystem
+            </div>
+            <div><label></label><input type="checkbox" name="extendedKeyUsage" value="IpsecTunnel" /> IpsecTunnel
+                <input type="checkbox" name="extendedKeyUsage" value="IpsecUser" /> IpsecUser
+                <input type="checkbox" name="extendedKeyUsage" value="TimeStamping" /> TimeStamping
+                <input type="checkbox" name="extendedKeyUsage" value="OCSPSigning" /> OCSPSigning
+                <input type="checkbox" name="extendedKeyUsage" value="Wireless" /> Wireless
+            </div>
+        </div>
+        <div>
+            <div><label>SignAsCA：</label><input type="checkbox" id="isCa" /> SignAsCA</div>
+        </div>
+        <div>
+            <div><label for="subjectAltNames" style="vertical-align: top">SubjectAltNames：</label><textarea id="subjectAltNames" cols="60" rows="6" placeholder="your-domain.com
+    *.your-domain.com">your-domain.com
+    *.your-domain.com</textarea></div>
+        </div>
+        <div>
+            <label></label><input type="button" value="生成密钥对" onclick="generateKeyPair()">
+            <input type="button" value="生成CSR" onclick="generateCsr()">
+            <input type="button" value="自签名证书" onclick="generateSelfSign()">
+            <input type="button" class="warning" value="使用CSR颁发证书" onclick="window.location = 'issue-csr.html'">
+            <input type="button" class="warning" value="使用公钥颁发证书" onclick="window.location = 'issue-public-key.html'">
         </div>
     </div>
-    <div>
-        <div><label>KeyUsage：</label><input type="checkbox" name="keyUsage" value="DigitalSignature" checked /> DigitalSignature
-            <input type="checkbox" name="keyUsage" value="NonRepudiation" /> NonRepudiation
-            <input type="checkbox" name="keyUsage" value="KeyEncipherment" checked /> KeyEncipherment
-            <input type="checkbox" name="keyUsage" value="DataEncipherment" checked /> DataEncipherment
-            <input type="checkbox" name="keyUsage" value="KeyAgreement" /> KeyAgreement
-        </div>
-        <div><label></label><input type="checkbox" name="keyUsage" value="KeyCertSign" /> KeyCertSign<span style="color: red">(CA Required)</span>
-            <input type="checkbox" name="keyUsage" value="CrlSign" /> CrlSign
-            <input type="checkbox" name="keyUsage" value="EncipherOnly" /> EncipherOnly
-            <input type="checkbox" name="keyUsage" value="DecipherOnly" /> DecipherOnly
-        </div>
-    </div>
-    <div>
-        <div><label>ExtendedKeyUsage：</label><input type="checkbox" name="extendedKeyUsage" value="ServerAuth" checked /> ServerAuth
-            <input type="checkbox" name="extendedKeyUsage" value="ClientAuth" checked /> ClientAuth
-            <input type="checkbox" name="extendedKeyUsage" value="CodeSigning" /> CodeSigning
-            <input type="checkbox" name="extendedKeyUsage" value="EmailProtection" /> EmailProtection
-            <input type="checkbox" name="extendedKeyUsage" value="IpsecEndSystem" /> IpsecEndSystem
-        </div>
-        <div><label></label><input type="checkbox" name="extendedKeyUsage" value="IpsecTunnel" /> IpsecTunnel
-            <input type="checkbox" name="extendedKeyUsage" value="IpsecUser" /> IpsecUser
-            <input type="checkbox" name="extendedKeyUsage" value="TimeStamping" /> TimeStamping
-            <input type="checkbox" name="extendedKeyUsage" value="OCSPSigning" /> OCSPSigning
-            <input type="checkbox" name="extendedKeyUsage" value="Wireless" /> Wireless
-        </div>
-    </div>
-    <div>
-        <div><label>SignAsCA：</label><input type="checkbox" id="isCa" /> SignAsCA</div>
-    </div>
-    <div>
-        <div><label for="subjectAltNames" style="vertical-align: top">SubjectAltNames：</label><textarea id="subjectAltNames" cols="60" rows="6" placeholder="your-domain.com
-*.your-domain.com">your-domain.com
-*.your-domain.com</textarea></div>
-    </div>
-    <div>
-        <label></label><input type="button" value="生成密钥对" onclick="generateKeyPair()">
-        <input type="button" value="生成CSR" onclick="generateCsr()">
-        <input type="button" value="自签名证书" onclick="generateSelfSign()">
-    </div>
+    <div id="container" class="clearfix"></div>
 </div>
-<div id="container" class="clearfix"></div>
-
 <script src="clipboard.min.js"></script>
 <script src="helper.js"></script>
 <script src="x509.js"></script>
