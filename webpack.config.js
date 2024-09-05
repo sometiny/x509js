@@ -17,8 +17,7 @@ module.exports = {
             patterns: [{
                 from: 'public',
                 to: ''
-            }
-            ],
+            }],
             options: {
                 concurrency: 10
             }
@@ -27,7 +26,7 @@ module.exports = {
     output: {
         library: {
             name: 'X509',
-            type: 'var',
+            type: 'window',
             export: 'default'
         },
         filename: 'x509.js',
