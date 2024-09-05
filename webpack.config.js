@@ -25,6 +25,11 @@ module.exports = {
         })
     ],
     output: {
+        library: {
+            name: 'X509',
+            type: 'var',
+            export: 'default'
+        },
         filename: 'x509.js',
         path: path.resolve(__dirname, 'dist'),
         clean: true

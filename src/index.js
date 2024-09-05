@@ -19,7 +19,7 @@ function parse(contents) {
     return null
 }
 
-window.X509 = {
+export default {
     keypair: generate_asymmetric_keypair,
     csr: generate_csr,
     selfSignedCertificate: self_issue,
