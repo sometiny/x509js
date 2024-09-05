@@ -21,13 +21,13 @@
             </select>
         </div>
         <div id="x509Names">
-            <div><label for="CN">CommonName：</label><input type="text" id="CN" value="your-domain.com" /></div>
-            <div><label for="O">Organization：</label><input type="text" id="O" value="organization" /></div>
-            <div><label for="OU">OrganizationUint：</label><input type="text" id="OU" value="organization_unit" /></div>
-            <div><label for="C">Country：</label><input type="text" id="C" value="CN" /></div>
-            <div><label for="St">State：</label><input type="text" id="St" value="" /></div>
-            <div><label for="L">Locality：</label><input type="text" id="L" value="" /></div>
-            <div><label for="Street">Street：</label><input type="text" id="Street" value="" /></div>
+            <div><label for="CN">CommonName：</label><input type="text" id="CN" value="your-domain.com" /> <a href="javascript:void(0)" onclick="changeOptions(this.parentNode)">More Subject Options</a></div>
+            <div style="display: none"><label for="O">Organization：</label><input type="text" id="O" value="" /></div>
+            <div style="display: none"><label for="OU">OrganizationUint：</label><input type="text" id="OU" value="" /></div>
+            <div style="display: none"><label for="C">Country：</label><input type="text" id="C" value="" /></div>
+            <div style="display: none"><label for="St">State：</label><input type="text" id="St" value="" /></div>
+            <div style="display: none"><label for="L">Locality：</label><input type="text" id="L" value="" /></div>
+            <div style="display: none"><label for="Street">Street：</label><input type="text" id="Street" value="" /></div>
         </div>
         <div>
             <div><label>Days：</label><input type="radio" name="days" value="30" /> 30
@@ -69,8 +69,8 @@
         </div>
         <div>
             <div><label for="subjectAltNames" style="vertical-align: top">SubjectAltNames：</label><textarea id="subjectAltNames" cols="60" rows="6" placeholder="your-domain.com
-    *.your-domain.com">your-domain.com
-    *.your-domain.com</textarea></div>
+*.your-domain.com">your-domain.com
+*.your-domain.com</textarea></div>
         </div>
         <div>
             <label></label><input type="button" value="生成密钥对" onclick="generateKeyPair()">

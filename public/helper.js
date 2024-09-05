@@ -76,3 +76,7 @@ function checkbox(name, returnNodes) {
 
     return nodes.map(t => t.value)
 }
+
+function changeOptions(node){
+    array(node.parentNode.childNodes).filter(t => t.nodeName === 'DIV' && t !== node).forEach( t=>  t.style.display = t.style.display === 'none' ? 'block' : 'none')
+}
