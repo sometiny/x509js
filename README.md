@@ -1,7 +1,63 @@
-### 支持算法 ###
-algorithmType: RSA/ECC
+### 开始 ###
+```javascript
+const keypair = await X509.keypair('ECC')
+console.log(keypair.private_key)
+console.log(keypair.public_key)
 
-algorithmParameters: 2048/4096/P-256/P-384/P-521
+/**
+-----BEGIN PRIVATE KEY-----
+MIG/AgEAMBAGByqGSM49AgEGBSuBBAAiBIGnMIGkAgEBBDCFf0WeXpl5TSU8+sK2
+UpJZcfNFu8X0HzJwAXBZOK/wy4PsQRqtri/JjgarmtD9N9+gBwYFK4EEACKhZANi
+AARC6NScZIRjcO4BGUvNIF29DUsjC7NymGCHdl1r8dQ9VwZnytzmGH1VbGRGVihg
+l9R1uRk0cVC1ejlH23FuUJwBMKd/Qe5SxUuyx9nZOa7R5FFkDa4IENi9YokWpovU
+AfE=
+-----END PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEQujUnGSEY3DuARlLzSBdvQ1LIwuzcphg
+h3Zda/HUPVcGZ8rc5hh9VWxkRlYoYJfUdbkZNHFQtXo5R9txblCcATCnf0HuUsVL
+ssfZ2Tmu0eRRZA2uCBDYvWKJFqaL1AHx
+-----END PUBLIC KEY-----
+*/
+```
+```javascript
+const subject = X509.X509Name('name.com');
+const response = await X509.csr('ECC', 'P-384', subject, null)
+
+console.log(response.csr)
+console.log(response.private_key)
+console.log(response.public_key)
+
+/**
+-----BEGIN CERTIFICATE REQUEST-----
+MIIBCjCBkAIBADATMREwDwYDVQQDDAhuYW1lLmNvbTB2MBAGByqGSM49AgEGBSuB
+BAAiA2IABKt6ZhC8Wm2vnUHTj6hq/AdSrPsu6TIUA/V8J4MijXPQA97s/eeWWSPb
+aocYjFmfBptDGHKFcgjxT5u0W8jx8V0KrxtLKuah904YheMZr1cMwRDx4Ko8iCVL
+48YVTfIJVTAKBggqhkjOPQQDAgNpADBmAjEA5agr642TPRjBbarkX2/V52CKVe0B
+p0zuvZH1Jb+IOOj+slUGY6IdekroY+Nhm2iyAjEA9Ab45+J1ZHS2vBF8VGQmYdPH
+hbfMpeFIrfAtBg3Q+a9xfy0vR8nNL00P76uRT7F9
+-----END CERTIFICATE REQUEST-----
+
+-----BEGIN PRIVATE KEY-----
+MIG/AgEAMBAGByqGSM49AgEGBSuBBAAiBIGnMIGkAgEBBDCIbFAazhcPz4SIXgfi
+Wq8sv87o8uZVsucE4YLFFClQ5z0RidMVdcRNcwnTwrzJVW6gBwYFK4EEACKhZANi
+AASremYQvFptr51B04+oavwHUqz7LukyFAP1fCeDIo1z0APe7P3nllkj22qHGIxZ
+nwabQxhyhXII8U+btFvI8fFdCq8bSyrmofdOGIXjGa9XDMEQ8eCqPIglS+PGFU3y
+CVU=
+-----END PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEq3pmELxaba+dQdOPqGr8B1Ks+y7pMhQD
+9XwngyKNc9AD3uz955ZZI9tqhxiMWZ8Gm0MYcoVyCPFPm7RbyPHxXQqvG0sq5qH3
+ThiF4xmvVwzBEPHgqjyIJUvjxhVN8glV
+-----END PUBLIC KEY-----
+*/
+```
+
+### 支持算法 ###
+algorithmType: RSA, algorithmParameters: 2048/4096
+
+algorithmType: ECC, algorithmParameters: P-256/P-384/P-521
 ### 枚举 ###
 ```javascript
 X509.KeyUsage = {
