@@ -30,6 +30,7 @@ X509.ExtendKeyUsages  = {
 }
 ```
 ### 生成密钥对 ###
+使用指定的算法和参数，生成非对称加密密钥对。
 ```
 X509.keypair(
     algorithmType: String, 
@@ -42,6 +43,7 @@ const response = await X509.keypair('ECC')
 console.log(response)
 ```
 ### 构造X509Name ###
+用于构造使用者(subject)或颁发者(issuer)信息，commonName是必须的。
 #### 方法 ####
 ```
 X509.X509Name(commonName: String) : X509Name
@@ -60,6 +62,7 @@ subject.org('orgname')
 ```
 
 ### 构造SubjectAltNames ###
+构造SAN信息，用于签发多域名证书。
 #### 方法 ####
 ```
 X509.SubjectAltNames(values: Array = []) : SubjectAltNames
@@ -79,6 +82,7 @@ const subjectAltNames = X509.SubjectAltNames(['*.loc.name.com', '*.sev.name.com'
 ```
 
 ### 构造证书签发信息 ###
+构造证书前发信息，默认不签发为CA证书，证书有效期365天，可自行设置。
 #### 方法 ####
 ```
 X509.X509CertificateInfo(
@@ -90,11 +94,11 @@ X509.X509CertificateInfo(
 ```javascript
 const certificateInfo = X509.X509CertificateInfo(subject, subjectAltNames)
     .isCa(false)
-    .days(days)
+    .days(90);
 ```
 
 ### 生成CSR ###
-
+使用指定算法和参数生成证书签发请求(CSR)，至少要提供subject，可提供subjectAltNames。
 #### 方法 ####
 ```
 X509.csr(
@@ -126,7 +130,7 @@ console.log(response)
 ```
 
 ### 自签名证书 ###
-
+使用指定算法和参数生成签发自签名证书(Self-Signed-Certificate)。
 #### 方法 ####
 ```
 X509.selfSignedCertificate(
@@ -139,7 +143,7 @@ X509.selfSignedCertificate(
 #### 示例 ####
 ```javascript
 const certificateInfo = X509.X509CertificateInfo(subject, subjectAltNames)
-    .isCa(false)
+    .isCa(false)  //设置为true可签发为CA证书，CA证书可以对其他CSR或公钥进行签发
     .days(days)
 
 const response = await X509.selfSignedCertificate('ECC', 'P-384', certificateInfo)
@@ -148,6 +152,7 @@ console.log(response)
 ```
 
 ### 颁发证书 ###
+使用CA证书和CA私钥，对CSR或者公钥进行签发。
 #### 方法 ####
 ```
 X509.issue(
@@ -215,7 +220,7 @@ X509CertificateInfo {
     isCa(value: Boolean | undefined): X509CertificateInfo | Boolean,
     serialNumber(value: Array | Uint8Array | undefined): X509CertificateInfo | Array,
     keyUsage(value: KeyUsage | undefined): X509CertificateInfo | KeyUsage,
-    extendedKeyUsage(value: Array<ExtendKeyUsages> | undefined): X509CertificateInfo | Array<ExtendKeyUsages>,
+    extendedKeyUsage(value: Array | undefined): X509CertificateInfo | Array,
     days(value: Integer | undefined): X509CertificateInfo | Integer,
     subject: X509Name | null,
     subjectAltNames: SubjectAltNames | null
