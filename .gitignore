@@ -2,3 +2,9 @@
 /node_modules
 /dist
 .DS_Store
+/public/clipboard.min.js
+/public/helper.js
+/public/index.html
+/public/issue-csr.html
+/public/issue-public-key.html
+/public/assets.css
