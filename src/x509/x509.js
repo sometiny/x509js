@@ -466,6 +466,35 @@ export function SubjectAltNames(values) {
             )
         )
     }
+    function generate_algorithm_identifier(salt, iv){
+        return asn1_constructed_sequence(
+            asn1_object_identifier('1.2.840.113549.1.5.13'), //pkcs5PBES2
+            asn1_constructed_sequence(
+                asn1_constructed_sequence(
+                    asn1_object_identifier('1.2.840.113549.1.5.12'), //pBKDF2
+                    asn1_constructed_sequence(
+                        asn1_octet_string(salt),
+                        asn1_integer(4),
+                        asn1_constructed_sequence(
+                            asn1_object_identifier('1.2.840.113549.2.9'), //hmacWithSHA256
+                            asn1_null()
+                        )
+                    )
+                ),
+                asn1_constructed_sequence(
+                    asn1_object_identifier('2.16.840.1.101.3.4.1.42'), //aes256-CBC
+                    asn1_octet_string(iv)
+                )
+            )
+        )
+    }
+
+    function generate_encrypted_private_key(encrypted, salt, iv){
+        return asn1_constructed_sequence(
+            generate_algorithm_identifier(salt, iv),
+            asn1_octet_string(encrypted)
+        );
+    }
     function findExtension(asn1) {
         for (let i = 0; i < asn1.length; i++) {
             const attribute = asn1[i]
