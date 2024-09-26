@@ -77,7 +77,7 @@ export async function self_issue(algorithm, algorithmParameters, x509Certificate
 
     const { private_key, public_key, public_key_bits } = await export_keys(keypair.privateKey)
 
-    const subjectKeyIdentifier = sha1Digest(public_key_bits)
+    const subjectKeyIdentifier = await sha1Digest(public_key_bits)
 
     x509CertificateInfo.publicKey(public_key)
     x509CertificateInfo.subjectKeyIdentifier(subjectKeyIdentifier)
