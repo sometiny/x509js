@@ -88,3 +88,11 @@ export default function UTF8String(bytes, offset, length) {
         }
     }
 }
+export const UTF8 = {
+    getString(bytes) {
+        return UTF8String(bytes).toString()
+    },
+    getBytes(str) {
+        return UTF8String(str).getBytesArray()
+    }
+}

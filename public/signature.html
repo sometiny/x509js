@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+    <title>纯前端生成密钥对/CSR/自签名证书/CA证书</title>
+    <meta name="keywords" content="x509,密钥对,RSA,ECC椭圆曲线,CSR,CER,SSL证书,自签名证书,CA" />
+    <meta name="description" content="纯前端生成密钥对，CSR，自签名证书。" />
+    <meta charset="utf-8">
+    <link href="assets.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+<h2>签名/验签</h2>
+<div class="clearfix">
+    <div class="fields">
+        <div><label for="private_key" style="vertical-align: top">私钥：</label><textarea id="private_key" cols="80" rows="6" >-----BEGIN PRIVATE KEY-----
+MIG/AgEAMBAGByqGSM49AgEGBSuBBAAiBIGnMIGkAgEBBDA5yaS353B1kRmfswWJ
+4iGUavuXeGLsGIEFaiRno1ZCkMp38nXxqZiYaZyNtGhI5UugBwYFK4EEACKhZANi
+AAQq68SPdr9D9BJYCaE7TRSszHwuz9S4NtQ1zaN9XyIgowwfhYNsQ0B8RpkuNRvV
+TEpzcMkalJx7WuNGu2x3MhB1lH4sJO4cizB71ge+aDU07V+nYSnrhYTPeW79cf1p
+g8Q=
+-----END PRIVATE KEY-----
+    </textarea>
+        </div>
+        <div><label for="public_key" style="vertical-align: top">公钥：</label><textarea id="public_key" cols="80" rows="6" >-----BEGIN PUBLIC KEY-----
+MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEKuvEj3a/Q/QSWAmhO00UrMx8Ls/UuDbU
+Nc2jfV8iIKMMH4WDbENAfEaZLjUb1UxKc3DJGpSce1rjRrtsdzIQdZR+LCTuHIsw
+e9YHvmg1NO1fp2Ep64WEz3lu/XH9aYPE
+-----END PUBLIC KEY-----
+    </textarea>
+        </div>
+        <div>
+            <label for="data" style="vertical-align: top">待签名/验签数据：</label><textarea id="data" cols="80" rows="6" >测试12113123123</textarea>
+        </div>
+        <div>
+            <label for="formatter">待签名/验签数据格式：</label><select id="formatter">
+                <option value="UTF8">UTF8/ASCII</option>
+                <option value="Base64">Base64</option>
+                <option value="Hex">Hex</option>
+            </select>
+        </div>
+        <div>
+            <label for="signature" style="vertical-align: top">签名：</label><textarea id="signature" cols="80" rows="6" ></textarea>
+        </div>
+        <div>
+            <label for="signature_formatter">签名格式：</label><select id="signature_formatter">
+                <option value="Base64">Base64</option>
+                <option value="Hex">Hex</option>
+            </select>
+        </div>
+        <div>
+            <label></label><input type="button" value="签名" onclick="sign()"> <input type="button" value="验签" onclick="verify()">
+        </div>
+        <div>
+            <label></label><span id="result-container"></span>
+        </div>
+    </div>
+</div>
+<script src="clipboard.min.js"></script>
+<script src="helper.js"></script>
+<script src="x509.js"></script>
+<script>
+
+    async function sign(){
+        const privateKey = el('private_key').value
+        const data = el('data').value
+        const formatter = el('formatter').value
+        const signature_formatter = el('signature_formatter').value
+
+        const result = await X509.generateSignature(privateKey, X509.encoding[formatter].parse(data), true)
+        el('signature').value = X509.encoding[signature_formatter].stringify(result.signature)
+        console.log(result.algorithm)
+        el('result-container').innerHTML = '<span class="tc-success">签名成功！私钥算法：' + result.algorithm.name + ( result.algorithm.namedCurve ? ' - ' + result.algorithm.namedCurve : '') + '</span>'
+    }
+    async function verify(){
+        const publicKey = el('public_key').value
+        const data = el('data').value
+        const formatter = el('formatter').value
+        const signature = el('signature').value
+        const signature_formatter = el('signature_formatter').value
+
+        const result = await X509.verifySignature(publicKey, X509.encoding[formatter].parse(data), X509.encoding[signature_formatter].parse(signature), true)
+
+        if(result.match){
+            el('result-container').innerHTML = '<span class="tc-success">签名验证成功！公钥算法：' + result.algorithm.name + ( result.algorithm.namedCurve ? ' - ' + result.algorithm.namedCurve : '') + '</span>'
+        }else{
+            el('result-container').innerHTML = '<span class="tc-success">签名验证失败！</span>'
+        }
+    }
+</script>
+</body>
+</html>
