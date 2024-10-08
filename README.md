@@ -1,4 +1,4 @@
-### 开始 ###
+### 开始
 运行示例：[/dist/](/dist/)
 ```javascript
 const keypair = await X509.keypair('ECC')
