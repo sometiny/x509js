@@ -58,3 +58,8 @@ select {
     outline: none;
     min-width: 300px;
 }
+
+.tc-primary {color: #409EFF}
+.tc-success {color: #67C23A}
+.tc-warning {color: #E6A23C}
+.tc-danger {color: #F56C6C}

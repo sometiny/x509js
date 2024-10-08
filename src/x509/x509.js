@@ -293,11 +293,11 @@ function getSignAlgorithm(algorithm) {
         hash: 'SHA-256'
     }
 }
-export function sign(key, body, algorithmType) {
+export function sign(key, body, algorithmType, returnRaw) {
     const algorithm = getSignAlgorithm(algorithmType)
     return crypto.subtle.sign(algorithm, key, new Uint8Array(body)).then(res => {
         const bytes = new Uint8Array(res)
-        if (algorithm.name !== 'ECDSA') return bytes
+        if (algorithm.name !== 'ECDSA' || returnRaw === true) return bytes
 
         const result = []
 
@@ -308,10 +308,10 @@ export function sign(key, body, algorithmType) {
         return result
     })
 }
-export function verify(key, body, signature, algorithmType) {
+export function verify(key, body, signature, algorithmType, rawSignature) {
     const algorithm = getSignAlgorithm(algorithmType)
 
-    if (algorithm.name === 'ECDSA') {
+    if (algorithm.name === 'ECDSA' && rawSignature !== true) {
         const asn1 = asn1_info(signature)
 
         const r = asn1[0].bigInteger()
