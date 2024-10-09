@@ -67,7 +67,6 @@ e9YHvmg1NO1fp2Ep64WEz3lu/XH9aYPE
 
         const result = await X509.generateSignature(privateKey, X509.encoding[formatter].parse(data), true)
         el('signature').value = X509.encoding[signature_formatter].stringify(result.signature)
-        console.log(result.algorithm)
         el('result-container').innerHTML = '<span class="tc-success">签名成功！私钥算法：' + result.algorithm.name + ( result.algorithm.namedCurve ? ' - ' + result.algorithm.namedCurve : '') + '</span>'
     }
     async function verify(){
