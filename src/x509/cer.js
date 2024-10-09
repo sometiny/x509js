@@ -91,6 +91,27 @@ export async function self_issue(algorithm, algorithmParameters, x509Certificate
         cer: cer
     }
 }
+export async function self_issue_csr(csr, privateKey, x509CertificateInfo) {
+    privateKey = await import_pkcs8_key(parse_pem(privateKey).contents)
+    const parsed = parse_pem(csr)
+    if (parsed.type !== 'CERTIFICATE REQUEST') throw new Error('csr required')
+
+    // read from csr
+    csr = await parse_csr(parsed.contents)
+    x509CertificateInfo.reset(csr.subject, csr.subjectAltNames)
+    x509CertificateInfo.publicKey(csr.publicKey)
+
+    // calc subjectKeyIdentifier
+    const subjectKeyIdentifier = await sha1Digest(csr.publicKeyContents)
+    x509CertificateInfo.subjectKeyIdentifier(subjectKeyIdentifier)
+    x509CertificateInfo.authorityKeyIdentifier(subjectKeyIdentifier)
+
+    const { cer } = await issue2(x509CertificateInfo, x509CertificateInfo.subject, privateKey)
+
+    return {
+        cer: cer
+    }
+}
 export async function issue(csr, x509CertificateInfo, caCertificate, caPrivateKey) {
     caCertificate = parse_cer(parse_pem(caCertificate).contents)
     caPrivateKey = await import_pkcs8_key(parse_pem(caPrivateKey).contents)

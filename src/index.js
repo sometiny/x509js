@@ -8,7 +8,7 @@ import {
     parse_pem, import_pkcs8_key, import_public_key, sign, verify
 } from './x509/x509'
 import { generate_csr, parse_csr } from './x509/csr'
-import { self_issue, issue, parse_cer } from './x509/cer'
+import { self_issue, issue, parse_cer, self_issue_csr } from './x509/cer'
 import { Base64 } from './helpers/base64'
 import { UTF8 } from './helpers/utf8'
 import Hex from './helpers/hex'
@@ -28,6 +28,7 @@ export default {
     keypair: generate_asymmetric_keypair,
     csr: generate_csr,
     selfSignedCertificate: self_issue,
+    selfSignedCertificateWithCSR: self_issue_csr,
     issue,
     parse,
     SubjectAltNames,

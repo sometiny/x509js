@@ -76,6 +76,7 @@
             <label></label><input type="button" value="生成密钥对" onclick="generateKeyPair()">
             <input type="button" value="生成CSR" onclick="generateCsr()">
             <input type="button" value="自签名证书" onclick="generateSelfSign()">
+            <input type="button" value="自签名证书(使用CSR)" onclick="generateSelfSignCsr()">
             <input type="button" class="warning" value="使用CSR颁发证书" onclick="window.location = './issue-csr.html'">
             <input type="button" class="warning" value="使用公钥颁发证书" onclick="window.location = './issue-public-key.html'">
             <input type="button" class="warning" value="RSA/ECC签名和验签" onclick="window.location = './signature.html'">
@@ -166,6 +167,37 @@
         showControl('certificate', response.cer)
         showControl('private_key', response.private_key)
         showControl('public_key', response.public_key)
+    }
+    async function generateSelfSignCsr(){
+        const subject = getSubject();
+        const subjectAltNames = getSubjectAltNames();
+        const days = parseInt(radio('days', 365))
+
+        const cer = X509
+            .X509CertificateInfo(subject, subjectAltNames)
+            .isCa(el('isCa').checked)
+            .days(days)
+
+        const keyUsage = checkbox('keyUsage').reduce((value, nodeValue) => {
+            return value | X509.KeyUsage[nodeValue];
+        } , 0)
+
+        if(cer.isCa() && (keyUsage & X509.KeyUsage['KeyCertSign']) === 0){
+            alert('签为CA时，KeyUsage必须勾选KeyCertSign');
+            return;
+        }
+        if(keyUsage > 0) cer.keyUsage(keyUsage)
+
+        const extendedKeyUsages = checkbox('extendedKeyUsage').map(nodeValue => X509.ExtendKeyUsages[nodeValue])
+
+        if(extendedKeyUsages.length > 0) cer.extendedKeyUsage(extendedKeyUsages)
+
+        const response = await X509.selfSignedCertificateWithCSR(getContents('certificate_signing_request'), getContents('private_key'), cer)
+
+        showControl('certificate_signing_request', false)
+        showControl('certificate', response.cer)
+        showControl('private_key', false)
+        showControl('public_key', false)
     }
 </script>
 </body>
