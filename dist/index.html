@@ -5,7 +5,7 @@
     <meta name="keywords" content="x509,密钥对,RSA,ECC椭圆曲线,CSR,CER,SSL证书,自签名证书,CA" />
     <meta name="description" content="纯前端生成密钥对，CSR，自签名证书。" />
     <meta charset="utf-8">
-    <link href="assets.css" type="text/css" rel="stylesheet" />
+    <link href="./assets.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
 <h2>生成密钥对/CSR证书请求/自签名证书</h2>
@@ -76,16 +76,16 @@
             <label></label><input type="button" value="生成密钥对" onclick="generateKeyPair()">
             <input type="button" value="生成CSR" onclick="generateCsr()">
             <input type="button" value="自签名证书" onclick="generateSelfSign()">
-            <input type="button" class="warning" value="使用CSR颁发证书" onclick="window.location = 'issue-csr.html'">
-            <input type="button" class="warning" value="使用公钥颁发证书" onclick="window.location = 'issue-public-key.html'">
-            <input type="button" class="warning" value="RSA/ECC签名和验签" onclick="window.location = 'signature.html'">
+            <input type="button" class="warning" value="使用CSR颁发证书" onclick="window.location = './issue-csr.html'">
+            <input type="button" class="warning" value="使用公钥颁发证书" onclick="window.location = './issue-public-key.html'">
+            <input type="button" class="warning" value="RSA/ECC签名和验签" onclick="window.location = './signature.html'">
         </div>
     </div>
     <div id="container" class="clearfix"></div>
 </div>
-<script src="clipboard.min.js"></script>
-<script src="helper.js"></script>
-<script src="x509.js"></script>
+<script src="./clipboard.min.js"></script>
+<script src="./helper.js"></script>
+<script src="./x509.js"></script>
 <script>
     function getAlg(){
         const alg = el('alg').value
