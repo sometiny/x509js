@@ -1,5 +1,4 @@
 const path = require('path')
-const CopyPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
@@ -12,17 +11,6 @@ module.exports = {
             extractComments: false // 是否将注释提取到单独的文件中
         })]
     },
-    plugins: [
-        new CopyPlugin({
-            patterns: [{
-                from: 'public',
-                to: ''
-            }],
-            options: {
-                concurrency: 10
-            }
-        })
-    ],
     output: {
         library: {
             name: 'X509',
@@ -31,6 +19,6 @@ module.exports = {
         },
         filename: 'x509.js',
         path: path.resolve(__dirname, 'dist'),
-        clean: true
+        clean: false
     }
 }
