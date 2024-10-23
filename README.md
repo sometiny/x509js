@@ -1,5 +1,8 @@
 ### 开始
-运行示例：[/dist/](/dist/)
+项目：[https://github.com/sometiny/x509js](https://github.com/sometiny/x509js)
+
+示例：[https://x509js.sometiny.iploc.cc/dist/](https://x509js.sometiny.iploc.cc/dist/)
+
 ```javascript
 const keypair = await X509.keypair('ECC')
 console.log(keypair.private_key)
