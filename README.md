@@ -1,8 +1,19 @@
-### 开始
 项目：[https://github.com/sometiny/x509js](https://github.com/sometiny/x509js)
 
 示例：[https://x509js.sometiny.iploc.cc/dist/](https://x509js.sometiny.iploc.cc/dist/)
 
+#### 基本功能
+依赖于现代浏览器的安全API：crypto.subtle，对x509相关文件标准的实现。
+
+* 支持RSA/ECC算法
+* 密钥对生成
+* CSR生成
+* 自签名证书，支持生成根CA证书和中级CA证书
+* 证书签名（使用CA对第三方CSR/公钥签名）
+* RSA/ECC签名验签
+
+
+#### 例如生成密钥对
 ```javascript
 const keypair = await X509.keypair('ECC')
 console.log(keypair.private_key)
@@ -24,6 +35,7 @@ ssfZ2Tmu0eRRZA2uCBDYvWKJFqaL1AHx
 -----END PUBLIC KEY-----
 */
 ```
+#### 例如生成CSR
 ```javascript
 const subject = X509.X509Name('name.com');
 const response = await X509.csr('ECC', 'P-384', subject, null)
