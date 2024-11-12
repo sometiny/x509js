@@ -15,7 +15,7 @@ import {
     sha256WithRSAEncryption, sign,
     ExtendKeyUsages,
     KeyUsageForCa,
-    KeyUsageNormal, X509Name, SubjectAltNames, import_pkcs8_key, parse_pem, export_public_key, sha1Digest
+    KeyUsageNormal, X509Name, SubjectAltNames, import_pkcs8_key, parse_pem, sha1Digest
 } from './x509'
 
 import {
