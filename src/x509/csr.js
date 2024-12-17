@@ -44,6 +44,14 @@ function build_csr(algorithm, body, signature) {
 export async function generate_csr(algorithm, parameters, x509Names, subjectAltNames) {
     check_algorithm(algorithm, parameters)
 
+    if (x509Names instanceof Array) {
+        subjectAltNames = SubjectAltNames(x509Names)
+        x509Names = X509Name(x509Names[0])
+    } else {
+        if (typeof x509Names === 'string') x509Names = X509Name(x509Names)
+        if (subjectAltNames instanceof Array) subjectAltNames = SubjectAltNames(subjectAltNames)
+    }
+
     const keypair = await gen_keypair(algorithm, parameters)
 
     const keys = await export_keys(keypair.privateKey)

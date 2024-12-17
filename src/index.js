@@ -25,6 +25,7 @@ function parse(contents, expect) {
 }
 
 export default {
+    version: '1.0.1',
     keypair: generate_asymmetric_keypair,
     csr: generate_csr,
     selfSignedCertificate: self_issue,
