@@ -15,6 +15,7 @@ export function IsValidIPv4(address) {
         if (octets === 4) return false
 
         const octetStr = temp.substr(start, pos - start)
+        if (!/^[0-9]{1,3}$/.test(octetStr)) return false
         const octet = parseInt(octetStr)
 
         if (octet < 0 || octet > 255) return false
@@ -64,6 +65,7 @@ export function IsValidIPv6(address) {
                 octets++
             } else {
                 const octetStr = temp.substr(start, pos - start)
+                if (!/^[0-9a-f]{1,4}$/i.test(octetStr)) return false
                 const octet = parseInt(octetStr, 16)
 
                 if (octet < 0 || octet > 0xffff) return false
