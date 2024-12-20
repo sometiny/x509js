@@ -1,6 +1,6 @@
 {
   "name": "broswer-x509js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "使用现代浏览器的内置API-crypto.subtle生成密钥对，CSR，自签名证书，CA证书以及签发证书。纯浏览器端，无任何对外网网络请求，降低私钥等敏感信息的泄露风险。",
   "keywords": ["x509", "javascript", "csr"],
   "main": "src/index.js",

@@ -202,7 +202,64 @@ const response = await X509.csr('ECC', 'P-384', subject, subjectAltNames)
 
 console.log(response)
 ```
+### 解析CSR ###
+解析CSR内容，返回subject、subjectAltNames和publicKey。
+#### 方法 `####`
+```
+X509.parse(contents: String, expect: String = undefined) : Promise<CSRDetail>
 
+CSRDetail {
+    subject: X509Name,
+    subjectAltNames: SubjectAltNames,
+    publicKeyPem: String
+}
+```
+#### 示例 ####
+```javascript
+const result = await X509.parse(`-----BEGIN CERTIFICATE REQUEST-----
+MIIBCjCBkAIBADATMREwDwYDVQQDDAhuYW1lLmNvbTB2MBAGByqGSM49AgEGBSuB
+BAAiA2IABKt6ZhC8Wm2vnUHTj6hq/AdSrPsu6TIUA/V8J4MijXPQA97s/eeWWSPb
+aocYjFmfBptDGHKFcgjxT5u0W8jx8V0KrxtLKuah904YheMZr1cMwRDx4Ko8iCVL
+48YVTfIJVTAKBggqhkjOPQQDAgNpADBmAjEA5agr642TPRjBbarkX2/V52CKVe0B
+p0zuvZH1Jb+IOOj+slUGY6IdekroY+Nhm2iyAjEA9Ab45+J1ZHS2vBF8VGQmYdPH
+hbfMpeFIrfAtBg3Q+a9xfy0vR8nNL00P76uRT7F9
+-----END CERTIFICATE REQUEST-----`)
+```
+
+
+### 解析SSL证书 ###
+解析SSL证书内容，返回subject、subjectAltNames和publicKey等信息。
+#### 方法 `####`
+```
+X509.parse(contents: String, expect: String = undefined) : Promise<CERDetail>
+
+CERDetail {
+    subject: X509Name,
+    issuer: X509Name,
+    notBefore: String,
+    notAfter: String,
+    subjectAltNames: SubjectAltNames,
+    publicKeyPem: String
+}
+```
+#### 示例 ####
+```javascript
+const result = await X509.parse(`-----BEGIN CERTIFICATE-----
+MIICIjCCAaigAwIBAgIQAqQUXiI4NzMU9vYfGu7zTTAKBggqhkjOPQQDAjAaMRgw
+FgYDVQQDDA95b3VyLWRvbWFpbi5jb20wHhcNMjQxMjIwMDgxNjE4WhcNMjUxMjIw
+MDgxNjE4WjAaMRgwFgYDVQQDDA95b3VyLWRvbWFpbi5jb20wdjAQBgcqhkjOPQIB
+BgUrgQQAIgNiAASZoQbRE9tUzV82GqBSJWS9UXYDrk3IhfUSNu8aEe/FPiSZ5nqn
+lOIyRG0EnHWq0HI+vK3NI+IvOBdfxUgbGF5ej/wWT59+a3clRF8N/OZh15rj5qga
+dQVg7hPY1WtNH8ejgbIwga8wLQYDVR0RBCYwJIIPeW91ci1kb21haW4uY29tghEq
+LnlvdXItZG9tYWluLmNvbTAdBgNVHQ4EFgQU0l3d+AF0JRbiwIlobMy/gFE3Xu8w
+HwYDVR0jBBgwFoAU0l3d+AF0JRbiwIlobMy/gFE3Xu8wDgYDVR0PAQEBBAQDAgSw
+MAwGA1UdEwEBAQQCMAAwIAYDVR0lAQEBBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMC
+MAoGCCqGSM49BAMCA2gAMGUCMDUY5LNHdzKlfdFnc7F2iPD8heJBlpBhD+umWQEd
+m201z7GJG0oWVyfJi4kWEy1E7QIxAOtWz92ziLTpiwFWr0RvaRLwpHln47cSHhd2
+IVaIsdXT1cFvdyWSpyh7dhQoT1TRzA==
+-----END CERTIFICATE-----
+`)
+```
 ### 自签名证书 ###
 使用指定算法和参数生成签发自签名证书(Self-Signed-Certificate)。
 #### 方法 ####
