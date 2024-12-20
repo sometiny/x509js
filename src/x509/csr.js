@@ -93,10 +93,12 @@ export async function parse_csr(contents) {
 
     const public_key_bits = asn1[0][2][1].bytes()
 
+    const publicKey = public_key_info.all()
     return {
         subject,
         subjectAltNames: san,
-        publicKey: public_key_info.all(),
-        publicKeyContents: public_key_bits
+        publicKey: publicKey,
+        publicKeyContents: public_key_bits,
+        publicKeyPem: build_pem('PUBLIC KEY', publicKey)
     }
 }

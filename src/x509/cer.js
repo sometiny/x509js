@@ -212,14 +212,16 @@ export function parse_cer(contents) {
     if (body[7]) {
         san.decodeCerExtension(body[7][0])
     }
+    const publicKey = public_key_info.all()
     return {
         subject,
         issuer,
         notBefore: body[4][0].string(),
         notAfter: body[4][1].string(),
         subjectAltNames: san,
-        publicKey: public_key_info.all(),
+        publicKey: publicKey,
         publicKeyContents: public_key_info[1].bytes(),
+        publicKeyPem: build_pem('PUBLIC KEY', publicKey),
         signatureAlgorithm: signature_algorithm,
         signature
     }
