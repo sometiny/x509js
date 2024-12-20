@@ -1,15 +1,16 @@
 {
-  "name": "x509js",
-  "version": "1.0.0",
-  "description": "x509js",
+  "name": "@sometiny/x509js",
+  "version": "1.0.2",
+  "description": "使用现代浏览器的内置API-crypto.subtle生成密钥对，CSR，自签名证书，CA证书以及签发证书。纯浏览器端，无任何对外网网络请求，降低私钥等敏感信息的泄露风险。",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cook-code-jazor/x509js.git"
+    "url": "git+https://github.com/sometiny/x509js"
   },
   "scripts": {
     "build": "npx webpack --mode production"
   },
-  "homepage": "https://github.com/cook-code-jazor/x509js",
+  "homepage": "https://github.com/sometiny/x509js",
   "devDependencies": {
     "copy-webpack-plugin": "^9.1.0",
     "eslint": "5.15.3",
