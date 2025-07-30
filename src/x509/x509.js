@@ -284,18 +284,45 @@ export async function export_keys(privateKey) {
         public_key_bits: generate_public_key_bits(info)
     }
 }
-
-function getSignAlgorithm(algorithm) {
-    return algorithm === 'RSA' ? {
-        name: 'RSASSA-PKCS1-v1_5',
-        hash: 'SHA-256'
-    } : {
-        name: 'ECDSA',
-        hash: 'SHA-256'
+function getEcdsaRawSignatureLength(namedCurve) {
+    switch (namedCurve) {
+        case 'P-256': return 32
+        case 'P-384': return 48
+        case 'P-521': return 66
+        default: throw new Error(`Unsupported curve: ${namedCurve}`)
     }
 }
+function getEcdsaSignAlgorithmName(namedCurve) {
+    switch (namedCurve) {
+        case 'P-256': return 'SHA-256'
+        case 'P-384': return 'SHA-384'
+        case 'P-521': return 'SHA-512'
+        default: throw new Error(`Unsupported curve: ${namedCurve}`)
+    }
+}
+function getSignAlgorithm(key) {
+    const name = key.algorithm.name
+    if (name === 'ECDSA') {
+        return {
+            name: 'ECDSA',
+            hash: { name: getEcdsaSignAlgorithmName(key.algorithm.namedCurve) }
+        }
+    } else {
+        return {
+            name: 'RSASSA-PKCS1-v1_5',
+            hash: { name: 'SHA-256' }
+        }
+    }
+}
+
+function toPaddedArray(bytes, length) {
+    const padded = new Uint8Array(length)
+    padded.set(bytes.slice(-length), length - Math.min(bytes.length, length))
+    return padded
+}
+
 export function sign(key, body, algorithmType, returnRaw) {
-    const algorithm = getSignAlgorithm(algorithmType)
+    const algorithm = getSignAlgorithm(key)
     return crypto.subtle.sign(algorithm, key, new Uint8Array(body)).then(res => {
         const bytes = new Uint8Array(res)
         if (algorithm.name !== 'ECDSA' || returnRaw === true) return bytes
@@ -310,15 +337,13 @@ export function sign(key, body, algorithmType, returnRaw) {
     })
 }
 export function verify(key, body, signature, algorithmType, rawSignature) {
-    const algorithm = getSignAlgorithm(algorithmType)
-
+    const algorithm = getSignAlgorithm(key)
     if (algorithm.name === 'ECDSA' && rawSignature !== true) {
         const asn1 = asn1_info(signature)
-
-        const r = asn1[0].bigInteger()
-        const s = asn1[1].bigInteger()
-
-        signature = [...r, ...s]
+        const length = getEcdsaRawSignatureLength(key.algorithm.namedCurve)
+        const r = toPaddedArray(asn1[0].bytes(), length)
+        const s = toPaddedArray(asn1[1].bytes(), length)
+        signature = new Uint8Array([...r, ...s])
     }
     return crypto.subtle.verify(algorithm, key, new Uint8Array(signature), new Uint8Array(body))
 }
